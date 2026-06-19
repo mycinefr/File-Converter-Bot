@@ -1,7 +1,23 @@
-version: '3'
+version: '3.8'
+
 services:
-  myservice:
+  file-converter:
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: file-converter-bot
     image: result/latest
+    restart: unless-stopped
+    
+    # Bridage pour que le bot ne sature jamais ton instance Oracle
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4G
+
+    # Variables d'environnement à remplir avec tes identifiants Telegram
+    environment:
+      - TOKEN=ton_token_bot_father
+      - HASH=ton_api_hash
+      - ID=ton_api_id
